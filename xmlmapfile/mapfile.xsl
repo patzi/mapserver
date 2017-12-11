@@ -166,11 +166,20 @@
    </xsl:choose>
 </xsl:template>
 
- <xsl:template match="ms:colorAttribute | ms:outlineColorAttribute">
+<xsl:template match="ms:colorAttribute | ms:outlineColorAttribute">
   <xsl:param name="indent"/>
   <xsl:param name="tagName" select="translate(name(), $smallcase, $uppercase)"/>
   <xsl:call-template name="print">
     <xsl:with-param name="text" select="concat($tagName, ' ',.)"/>
+    <xsl:with-param name="indent" select="$indent"/>
+  </xsl:call-template>
+</xsl:template>
+
+<xsl:template match="ms:colorHex | ms:outlineColorHex | ms:shadowColorHex">
+  <xsl:param name="indent"/>
+  <xsl:param name="tagName" select="translate(name(), $smallcase, $uppercase)"/>
+  <xsl:call-template name="print">
+    <xsl:with-param name="text" select="concat($tagName, ' &#34;',., '&#34;')"/>
     <xsl:with-param name="indent" select="$indent"/>
   </xsl:call-template>
 </xsl:template>
@@ -604,6 +613,10 @@
       <xsl:with-param name="indent" select="$indent"/>
       <xsl:with-param name="tagName" select="'COLOR'"/>
     </xsl:apply-templates>
+    <xsl:apply-templates select="ms:colorHex">
+      <xsl:with-param name="indent" select="$indent"/>
+      <xsl:with-param name="tagName" select="'COLOR'"/>
+    </xsl:apply-templates>
     <xsl:call-template name="print">
       <xsl:with-param name="indent" select="$indent"/>
       <xsl:with-param name="node" select="'ms:encoding'"/>
@@ -651,6 +664,10 @@
       <xsl:with-param name="indent" select="$indent"/>
       <xsl:with-param name="tagName" select="'OUTLINECOLOR'"/>
     </xsl:apply-templates>
+    <xsl:apply-templates select="ms:outlineColorHex">
+      <xsl:with-param name="indent" select="$indent"/>
+      <xsl:with-param name="tagName" select="'OUTLINECOLOR'"/>
+    </xsl:apply-templates>
     <xsl:call-template name="print">
       <xsl:with-param name="indent" select="$indent"/>
       <xsl:with-param name="node" select="'ms:outlineWidth'"/>
@@ -673,6 +690,10 @@
     </xsl:call-template>
     <xsl:apply-templates select="ms:shadowColor">
       <xsl:with-param name="indent" select="$indent"/>
+    </xsl:apply-templates>
+    <xsl:apply-templates select="ms:shadowColorHex">
+      <xsl:with-param name="indent" select="$indent"/>
+      <xsl:with-param name="tagName" select="'SHADOWCOLOR'"/>
     </xsl:apply-templates>
     <xsl:apply-templates select="ms:shadowSize">
       <xsl:with-param name="indent" select="$indent"/>
@@ -819,6 +840,10 @@
       <xsl:with-param name="indent" select="$indent"/>
       <xsl:with-param name="tagName" select="'COLOR'"/>
     </xsl:apply-templates>
+    <xsl:apply-templates select="ms:colorHex">
+      <xsl:with-param name="indent" select="$indent"/>
+      <xsl:with-param name="tagName" select="'COLOR'"/>
+    </xsl:apply-templates>
     <xsl:call-template name="print">
       <xsl:with-param name="indent" select="$indent"/>
       <xsl:with-param name="node" select="'ms:geomTransform'"/>
@@ -877,6 +902,10 @@
       <xsl:with-param name="indent" select="$indent"/>
     </xsl:apply-templates>
     <xsl:apply-templates select="ms:outlineColorAttribute">
+      <xsl:with-param name="indent" select="$indent"/>
+      <xsl:with-param name="tagName" select="'OUTLINECOLOR'"/>
+    </xsl:apply-templates>
+    <xsl:apply-templates select="ms:outlineColorHex">
       <xsl:with-param name="indent" select="$indent"/>
       <xsl:with-param name="tagName" select="'OUTLINECOLOR'"/>
     </xsl:apply-templates>
